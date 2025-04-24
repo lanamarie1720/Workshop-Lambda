@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 /**
@@ -30,6 +31,7 @@ public class DataStorageImpl implements DataStorage {
 
 
     static DataStorage getInstance() {
+
         return INSTANCE; // Returning the singleton instance
     }
 
@@ -46,36 +48,31 @@ public class DataStorageImpl implements DataStorage {
 
     @Override
     public Person findOne(Predicate<Person> filter) {
-        // TODO: needs completion
-        return null;
+        return personList.stream().filter(filter).findFirst().orElse(null);
     }
 
     @Override
     public String findOneAndMapToString(Predicate<Person> filter, Function<Person, String> personToString) {
-        // TODO: needs completion
-        return null;
+        return personList.stream().filter(filter).map(personToString).findFirst().orElse(null);
     }
 
     @Override
     public List<String> findManyAndMapEachToString(Predicate<Person> filter, Function<Person, String> personToString) {
-        // TODO: needs completion
-        return null;
+        return personList.stream().filter(filter).map(personToString).collect(Collectors.toList());
     }
 
     @Override
     public void findAndDo(Predicate<Person> filter, Consumer<Person> consumer) {
-        // TODO: needs completion
+        personList.stream().filter(filter).forEach(consumer);
     }
 
     @Override
     public List<Person> findAndSort(Comparator<Person> comparator) {
-        // TODO: needs completion
-        return null;
+        return personList.stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override
     public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
-        // TODO: needs completion
-        return null;
+        return personList.stream().filter(filter).sorted(comparator).collect(Collectors.toList());
     }
 }
